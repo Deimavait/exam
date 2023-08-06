@@ -109,6 +109,52 @@ server.post('/admin-login', async (req, res) => {
   }
 });
 
+// register event participants
+
+const participantSchema = joi.object({
+  name: joi.string().trim().min(2).required(),
+  lastName: joi.string().trim().min(2).required(),
+  email: joi.string().email().trim().lowercase().required(),
+  dateOfBirth: joi.date().iso().required(),
+  phoneNumber: joi
+    .string()
+    .regex(/^\+\d{11}$/)
+    .required(),
+});
+
+server.post('/registerParticipant', authenticate, async (req, res) => {
+  let payload = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+  const decoded = jwt_decode(token);
+
+  try {
+    payload = await participantSchema.validateAsync(payload);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).send({ error: 'All fields are required' });
+  }
+  try {
+    await dbPool.execute(
+      `
+            INSERT INTO participants (name, lastName, email, dateOfBirth, phoneNumber, \`admin-table_id\`)
+            VALUES (?, ?, ?, ?, ?, ?)
+            `,
+      [
+        payload.name,
+        payload.lastName,
+        payload.email,
+        payload.dateOfBirth,
+        payload.phoneNumber,
+        decoded.id,
+      ]
+    );
+    return res.status(201).end();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).end();
+  }
+});
+
 server.listen(process.env.PORT, () =>
   console.log(`Server is listening to ${process.env.PORT} port`)
 );
