@@ -1,6 +1,5 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 
 export default function Header() {
   return (
@@ -15,9 +14,6 @@ export default function Header() {
       }}
     >
       <Typography variant='h6'>Hi Admin</Typography>
-      <Button variant='contained' color='primary'>
-        Register to Event
-      </Button>
     </nav>
   );
 }
