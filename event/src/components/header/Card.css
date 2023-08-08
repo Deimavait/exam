@@ -1,0 +1,38 @@
+.card {
+  border: none;
+  width: 30vw;
+  min-height: 7.5rem;
+}
+
+.card-header {
+  background-color: #a78a7f;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #fff;
+}
+.card-footer {
+  background-color: #a78a7f;
+  padding: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.card-body {
+  background-color: #e7d7c1;
+  padding: 10px;
+  color: #735751;
+}
+
+.btn {
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #735751;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}

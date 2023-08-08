@@ -6,14 +6,13 @@ export default function Header() {
     <nav
       style={{
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         padding: '16px',
-        background: '#d2d1ca',
+        background: '#a78a7f',
         width: '100vw',
       }}
     >
-      <Typography variant='h6'>Hi Admin</Typography>
+      <Typography variant='h3'>Hi Admin!</Typography>
     </nav>
   );
 }

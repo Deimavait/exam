@@ -155,6 +155,24 @@ server.post('/registerParticipant', authenticate, async (req, res) => {
   }
 });
 
+//  Get participants
+
+server.get('/registerParticipant', authenticate, async (req, res) => {
+  try {
+    const [data] = await dbPool.execute(
+      `
+        SELECT * FROM participants
+      `
+    );
+    return res.status(200).send({ data });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).end();
+  }
+});
+
+// Delete participant
+
 server.listen(process.env.PORT, () =>
   console.log(`Server is listening to ${process.env.PORT} port`)
 );

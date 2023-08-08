@@ -1,3 +1,8 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
 form {
   display: flex;
   flex-direction: column;
@@ -7,10 +12,17 @@ form {
   padding: 1.5rem 0;
   border-radius: 20px;
   border: 1px solid grey;
-  background-color: grey;
+  background-color: #a78a7f;
   gap: 0.5rem;
 }
 form input {
   min-height: 30px;
   min-width: 150px;
+  background-color: #735751;
+  border: none;
+}
+button {
+  background-color: #585123;
+  color: #fff;
+  border: none;
 }
