@@ -10,9 +10,10 @@ export default function Header() {
         padding: '16px',
         background: '#a78a7f',
         width: '100vw',
+        fontWeight: '500',
       }}
     >
-      <Typography variant='h3'>Hi Admin!</Typography>
+      <Typography variant='h2'>Hi Admin!</Typography>
     </nav>
   );
 }

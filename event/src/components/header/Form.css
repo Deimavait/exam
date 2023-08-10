@@ -20,6 +20,7 @@ form input {
   min-width: 150px;
   background-color: #735751;
   border: none;
+  color: #fff;
 }
 button {
   background-color: #585123;
