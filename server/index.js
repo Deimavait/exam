@@ -173,6 +173,95 @@ server.get('/registerParticipant', authenticate, async (req, res) => {
 
 // Delete participant
 
+server.delete('/registerParticipant/:id', authenticate, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const isDeleted = await deleteParticipant(id);
+
+    if (isDeleted) {
+      return res
+        .status(200)
+        .json({ message: 'Participant deleted successfully' });
+    } else {
+      return res.status(400).json({ message: 'Failed to delete participant' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).end();
+  }
+});
+
+async function deleteParticipant(id) {
+  try {
+    const [result] = await dbPool.execute(
+      `
+      DELETE FROM participants 
+      WHERE id = ?
+      `,
+      [id]
+    );
+
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error('Error deleting participant:', error);
+    throw error;
+  }
+}
+
+// Update
+
+server.put('/registerParticipant/:id', authenticate, async (req, res) => {
+  const id = req.params.id;
+  const payload = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+  const decoded = jwt_decode(token);
+
+  try {
+    const isUpdated = await updateParticipant(id, payload, decoded);
+
+    if (isUpdated) {
+      return res
+        .status(200)
+        .json({ message: 'Participant updated successfully' });
+    } else {
+      return res.status(400).json({ message: 'Failed to update participant' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).end();
+  }
+});
+
+async function updateParticipant(id, payload, decoded) {
+  try {
+    const [result] = await dbPool.execute(
+      `
+      UPDATE participants
+      SET name = ?,
+        lastName = ?,
+        email = ?,
+        dateOfBirth = ?,
+        phoneNumber = ?
+      WHERE id = ?
+    `,
+      [
+        payload.name,
+        payload.lastName,
+        payload.email,
+        payload.dateOfBirth,
+        payload.phoneNumber,
+        id,
+      ]
+    );
+
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error('Error updating participant:', error);
+    throw error;
+  }
+}
+
 server.listen(process.env.PORT, () =>
   console.log(`Server is listening to ${process.env.PORT} port`)
 );

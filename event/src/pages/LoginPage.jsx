@@ -18,6 +18,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleClickShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -48,7 +49,7 @@ export default function LoginPage() {
 
       if (body.error) {
         console.error(body.error);
-        alert('Incorrect email or password');
+        setErrorMessage('Incorrect email or password');
         return;
       }
       localStorage.setItem('token', body.token);
@@ -60,57 +61,76 @@ export default function LoginPage() {
 
   return (
     <>
-      <Typography variant='h3' component='h3' sx={{ color: '#616143' }}>
+      <Typography
+        variant='h3'
+        component='h3'
+        sx={{ color: '#735751', textAlign: 'center', padding: '2.5rem' }}
+      >
         Admin Log In
       </Typography>
-
       <Box
-        component='form'
         sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100vw',
         }}
-        noValidate
-        autoComplete='off'
       >
-        <div>
-          <TextField
-            required
-            id='outlined-required'
-            label='Email'
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <FormControl sx={{ m: 1, width: '25ch' }} variant='outlined'>
-            <InputLabel htmlFor='outlined-adornment-password'>
-              Password*
-            </InputLabel>
-            <OutlinedInput
-              id='outlined-adornment-password'
-              type={showPassword ? 'text' : 'password'}
-              endAdornment={
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='toggle password visibility'
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge='end'
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label='Password'
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </FormControl>
-        </div>
-        <Button
-          variant='outlined'
-          sx={{ color: '#616143', border: '1px solid #616143' }}
-          onClick={handleLogin}
+        <Box
+          component='form'
+          sx={{
+            backgroundColor: '#a78a7f',
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete='off'
         >
-          Log In
-        </Button>
+          <div>
+            <TextField
+              required
+              id='outlined-required'
+              label='Email'
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <FormControl sx={{ m: 1, width: '25ch' }} variant='outlined'>
+              <InputLabel htmlFor='outlined-adornment-password'>
+                Password*
+              </InputLabel>
+              <OutlinedInput
+                id='outlined-adornment-password'
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label='Password'
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormControl>
+          </div>
+          <Button
+            variant='outlined'
+            sx={{ color: '#735751', border: '1px solid #735751' }}
+            onClick={handleLogin}
+          >
+            Log In
+          </Button>
+        </Box>
+        {errorMessage && (
+          <Typography color='error' sx={{ mt: 1 }}>
+            {errorMessage}
+          </Typography>
+        )}
       </Box>
     </>
   );
